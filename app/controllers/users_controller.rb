@@ -8,6 +8,7 @@ class UsersController < ApplicationController
   def index
     @users = User.all
     @user = User.new
+    @book = Book.new
   end
 
   def edit
@@ -17,22 +18,24 @@ class UsersController < ApplicationController
     end
   end
 
-  def create
-    @user = User.new(book_params)
-    @user.user_id = current_user.id
-    if @user.save
-    flash[:notice] = "Book was successfully created."
-    redirect_to user_path(@user.id)
+def create
+    @user = User.new(user_params)
+    @book.user_id = current_user.id
+    if @book.save
+    flash[:notice] = "you have created book successfully."
+    redirect_to book_path(@book.id)
     else
-    @users = User.all
-    render :index
+    @books = Book.all
+    render :show
     end
-  end
+end
+
+
 
   def update
     @user = User.find(params[:id])
     if @user.update(user_params)
-    flash[:notice] = "ユーザーを正常に更新しました。"
+    flash[:notice] = "You have updated user successfully."
     redirect_to user_path(@user)
     else
     render 'edit'
